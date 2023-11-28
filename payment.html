@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Payment Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(137, 52, 52);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            width: 80%; /* Adjust the width as needed */
+        }
+
+        .payment-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .crypto-image {
+            width: 50%; 
+            margin-bottom: 20px;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            width: 700px;
+            height: 250px;
+            position: center;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+        .card:hover {
+            transform: rotateY(140deg);
+        }
+
+        .card-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: left;
+            font-size: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        #copyAddressBtn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .card .front {
+            background-color: rgb(137, 52, 52);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgb(137, 52, 52);
+        }
+
+        .card .back {
+            background-color: rgb(137, 52, 52);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgb(137, 52, 52);
+            transform: rotateY(180deg);
+        }
+
+        .form-container {
+            width: 45%; /* Adjust the width as needed */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border-radius: 7px;
+            border: none;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .crypto-form {
+            width: 45%; /* Adjust the width as needed */
+        }
+
+        #copyResult {
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <div class="payment-text">CARD PAYMENT</div>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-face front">
+                        <img src="img/atmfront.png" alt="" />
+                    </div>
+                    <div class="card-face back">
+                        <img src="img/atm back.png" alt="" />
+                    </div>
+                </div>
+            </div>
+            <form action="/process-payment" method="post">
+                <label for="cardNumber">Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+
+                <label for="expiryDate">Card Address:</label>
+                <input type="text" id="expiryDate" name="Card Address" placeholder="City/State" required>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+
+                <button class="btn btn-request text-uppercase" style="margin-top: 20px;" id="submit-payment">
+                    Submit
+                </button>
+            </form>
+        </div>
+
+        <div class="crypto-form">
+            <img src="img/ccc.png" alt="Crypto Image" class="crypto-image">
+            <div class="payment-text">PAY WITH CRYPTO</div>
+            <div class="input-group">
+                <label for="cryptoAddress">Crypto Address:</label>
+                <input type="text" id="cryptoAddress" value="184fBD9auWiXKNqGwBiDs3uhkbMtm67LzS" readonly>
+                <button id="copyAddressBtn" onclick="copyAddress()">
+                    <i class="far fa-copy"></i>
+                </button>
+            </div>
+            <div id="copyResult"></div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+
+        
+        const btn = document.querySelector("#submit-payment");
+
+        
+        btn.addEventListener("click", hanleClick);
+        function hanleClick() {
+            const href = location.href;
+            const link = href.split("/");
+            link[link.length-1] = "submission.html";
+            const newLink = link.join("/");
+            location.assign(newLink);
+        }
+
+        function copyAddress() {
+        const cryptoAddress = document.getElementById("cryptoAddress");
+
+        cryptoAddress.select();
+        cryptoAddress.setSelectionRange(0, 99999);
+
+        document.execCommand("copy");
+
+        const copyResult = document.getElementById("copyResult");
+        copyResult.innerHTML = "Address Copied!";
+    }
+    </script>
+
+</body>
+</html>
